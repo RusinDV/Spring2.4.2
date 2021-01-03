@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org "
-
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
     <title>Users</title>
 </head>
 
@@ -25,7 +24,7 @@
         <td th:text="${user.getLastName()}">Last Name</td>
         <td th:text="${user.getAge()}">Age</td>
         <td>
-            <form method="post" th:id="${user.getId()}" action="#" th:action="@{/delete(idUser=${user.getId()})}">
+            <form method="post"  th:id="${user.getId()}" action="#" th:action="@{/delete(idUser=${user.getId()})}">
                 <button type="submit" th:form="${user.getId()}">Delete</button>
             </form>
         </td>
@@ -39,28 +38,28 @@
 
 
 <table>
-    <form method="post" th:id="addUser" action="#" th:action="@{/add}" th:object="${user}"
+    <form method="post"  th:id="addUser" action="#" th:action="@{/add}" th:object="${user}"
           th:method="post">
-
+       <!-- accept-charset="UTF-8"-->
         <tr>
             <th>Name</th>
-            <td><input type="text" th:field="*{name}"></td>
+            <td><input type="text" th:accept-charset="UTF-8" th:field="*{name}"></td>
         </tr>
 
         <tr>
             <th>Last Name</th>
-            <td><input type="text" th:field="*{lastName}"></td>
+            <td><input type="text"  th:accept-charset="UTF-8"  th:field="*{lastName}"></td>
         </tr>
 
         <tr>
             <th>Age</th>
-            <td><input type="text" th:field="*{age}"></td>
+            <td><input type="text" th:accept-charset="UTF-8" th:field="*{age}"></td>
         </tr>
 
         <tr>
             <th>Add User</th>
             <td align="center">
-                <button type="submit" th:form="addUser">ADD</button>
+                <button type="submit"  th:form="addUser">ADD</button>
             </td>
         </tr>
 

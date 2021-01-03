@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.UrlTemplateResolver;
 
 import javax.servlet.FilterRegistration;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +34,8 @@ public class WebConfig implements WebMvcConfigurer {
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/pages/");
         templateResolver.setSuffix(".html");
-      //  templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
@@ -41,7 +43,9 @@ public class WebConfig implements WebMvcConfigurer {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.addTemplateResolver(new UrlTemplateResolver());
         templateEngine.setEnableSpringELCompiler(true);
+
         return templateEngine;
     }
 
@@ -50,12 +54,13 @@ public class WebConfig implements WebMvcConfigurer {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
-       // resolver.setCharacterEncoding("WINDOWS-1251");
-       // resolver.setCharacterEncoding("UTF-8");
-       // resolver.setContentType("text/html; charset=UTF-8");
 
-       registry.viewResolver(resolver);
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setContentType("text/html; charset=UTF-8");
+
+        registry.viewResolver(resolver);
     }
+
 
 
 }

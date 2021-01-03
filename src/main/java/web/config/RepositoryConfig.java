@@ -31,24 +31,25 @@ public class RepositoryConfig {
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?verifyServerCertificate=false&useSSL=false&requireSSL=false&useLegacyDatetimeCode=false&amp&serverTimezone=UTC");
-       // dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf-8");
+        //dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?verifyServerCertificate=false&useSSL=false&requireSSL=false&useLegacyDatetimeCode=false&amp&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf-8");
         dataSource.setUsername("root");
         dataSource.setPassword("12345");
         return dataSource;
     }
+
     @Bean
-    public EntityManagerFactory entityManagerFactory(){
+    public EntityManagerFactory entityManagerFactory() {
         Properties props = new Properties();
-        props.put("hibernate.dialect","org.hibernate.dialect.MySQL5Dialect");
+        props.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         props.put("hibernate.show_sql", "true");
         props.put("hibernate.hbm2ddl.auto", "update");
-       // props.put("hibernate.connection.characterEncoding", "utf8");
-     //   props.put("hibernate.connection.CharSet", "utf8");
-     //   props.put("hibernate.connection.useUnicode", true);
+        props.put("hibernate.connection.characterEncoding", "utf8");
+        props.put("hibernate.connection.CharSet", "utf8");
+        props.put("hibernate.connection.useUnicode", true);
 
 
-        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean=new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setJpaProperties(props);
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setPackagesToScan("web.model");
@@ -59,7 +60,7 @@ public class RepositoryConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-        JpaTransactionManager transactionManager=new JpaTransactionManager();
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
