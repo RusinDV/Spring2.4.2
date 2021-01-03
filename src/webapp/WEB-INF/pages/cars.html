@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tbody>
+<H1>Cars</H1>
+<tr th:each="car: ${cars}">
+    <td th:text="${car.getModel()}">Samalet</td>
+   Power <td th:text="${car.getPower()}">0</td>
+   Speed <td th:text="${car.getSpeed()}">0</td>
+    <br>
+</tr>
+</tbody>
+</body>
+</html>
