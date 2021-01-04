@@ -4,14 +4,19 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.messaging.context.AuthenticationPrincipalArgumentResolver;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.UrlTemplateResolver;
+import web.config.handler.LoginSuccessHandler;
 
 import javax.servlet.FilterRegistration;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +24,8 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 @EnableWebMvc
 @ComponentScan("web")
+@EnableTransactionManagement
+
 public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
@@ -61,6 +68,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.viewResolver(resolver);
     }
 
-
+    /*@Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/error").setViewName("notAuth");
+    }*/
 
 }

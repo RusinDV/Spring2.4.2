@@ -32,7 +32,7 @@ public class RepositoryConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         //dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?verifyServerCertificate=false&useSSL=false&requireSSL=false&useLegacyDatetimeCode=false&amp&serverTimezone=UTC");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf-8");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/security?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf-8");
         dataSource.setUsername("root");
         dataSource.setPassword("12345");
         return dataSource;

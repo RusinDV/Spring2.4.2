@@ -10,11 +10,11 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.*;
 
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
-  @Override
+/*  @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         //create the root Spring application context
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        /* rootContext.register(ApplicationConfig.class, SecurityConfig.class);*/
+        *//* rootContext.register(ApplicationConfig.class, SecurityConfig.class);*//*
         servletContext.addListener(new ContextLoaderListener(rootContext));
         //Create the dispatcher servlet's Spring application context
         AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
@@ -35,7 +35,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
 
-    }
+    }*/
     // Метод, указывающий на класс конфигурации
     @Override
     protected Class<?>[] getRootConfigClasses() {
