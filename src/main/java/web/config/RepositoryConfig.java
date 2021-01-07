@@ -1,6 +1,8 @@
 package web.config;
 
 
+import org.hibernate.engine.spi.SessionFactoryDelegatingImpl;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -48,6 +50,7 @@ public class RepositoryConfig {
         props.put("hibernate.connection.CharSet", "utf8");
         props.put("hibernate.connection.useUnicode", true);
 
+        //HibernatePersistenceProvider hibernatePersistenceProvider =new HibernatePersistenceProvider();
 
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setJpaProperties(props);

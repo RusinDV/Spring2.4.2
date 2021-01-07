@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/admin")
-public class CrudController {
+public class AdminController {
     @Autowired
     UserService userService;
     @Autowired
