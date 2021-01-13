@@ -32,7 +32,7 @@ public class MainController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping(value = "/registration")
     public ModelAndView registration(ModelAndView modelAndView) {
