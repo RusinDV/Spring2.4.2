@@ -8,10 +8,11 @@ import web.model.User;
 
 import java.util.*;
 
+
 public class AdapterUserDetails implements UserDetails{
 
-    User user;
-    List<AuthGroup> authGroupList;
+    private User user;
+    private List<AuthGroup> authGroupList;
 
     public AdapterUserDetails(User user, List<AuthGroup> authGroupList) {
         super();
@@ -29,7 +30,7 @@ public class AdapterUserDetails implements UserDetails{
             grantedAuthoritySet.add(new SimpleGrantedAuthority(authGroup.getAuthgroup()));
         }
        return grantedAuthoritySet;
-        //return Collections.singleton(new SimpleGrantedAuthority("USER"));
+
     }
 
     @Override

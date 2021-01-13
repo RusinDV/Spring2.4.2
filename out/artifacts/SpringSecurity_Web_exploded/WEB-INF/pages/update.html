@@ -11,7 +11,7 @@
           th:method="post">
         <tr>
             <th>Id</th>
-            <td><input type="text" th:field="*{id}" th:placeholder="${user.getId()}" ></td>
+            <td><input type="text" th:field="*{id}" th:placeholder="${user.getId()}" readonly></td>
         </tr>
         <tr>
             <th>Name</th>
@@ -30,6 +30,15 @@
         <tr>
             <th>Password</th>
             <td><input type="text" th:field="*{password}"></td>
+        </tr>
+        <tr>
+            <th>Role</th>
+            <td>
+            <select name="role">
+                <option value="user">USER</option>
+                <option value="admin">ADMIN</option>
+            </select>
+            </td>
         </tr>
         <tr>
             <th>Add User</th>

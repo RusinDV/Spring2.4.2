@@ -9,14 +9,27 @@
 <body>
 
 <h2>Users Relationship Manager</h2>
-<a href="/">Main page</a>
-<table>
+
+<br>
+<div style="display: grid">
+<a href="/admin/createUser">Create user</a>
+
+<a href="/user">User page</a>
+
+<a href="/logout">Logout</a>
+</div>
+<br>
+<div class="container-fluid">
+<table border="5"  cellpadding="10" >
 
     <tr>
         <th>Id</th>
         <th>Name</th>
         <th>LastName</th>
         <th>Age</th>
+        <th>Role</th>
+        <th>Delete</th>
+        <th>Update</th>
     </tr>
     <tr th:each="user:${allUsers}">
         <td th:text="${user.getId()}">ID</td>
@@ -24,53 +37,28 @@
         <td th:text="${user.getLastName()}">Last Name</td>
         <td th:text="${user.getAge()}">Age</td>
         <td>
-            <form method="post"  th:id="${user.getId()}" action="#" th:action="@{/admin/delete(idUser=${user.getId()})}">
+           <div th:each="authGroup:${user.getAuthGroupList()}" style="display: inline-block">
+            <p  th:text="${authGroup.getAuthgroup()}"></p>
+           </div>
+        </td>
+
+
+        <td>
+            <form method="post" th:id="${user.getId()}" action="#" th:action="@{/admin/delete(idUser=${user.getId()})}">
                 <button type="submit" th:form="${user.getId()}">Delete</button>
             </form>
         </td>
         <td>
-            <form method="post" th:id="${user.getId()}+d" action="#" th:action="@{/admin/preupdate(idUser=${user.getId()})}">
+
+
+            <form method="post" th:id="${user.getId()}+d" action="#"
+                  th:action="@{/admin/preupdate(idUser=${user.getId()})}">
                 <button type="submit" th:form="${user.getId()}+d">Update</button>
             </form>
         </td>
     </tr>
 </table>
-
-
-<table>
-    <form method="post"  th:id="addUser" action="#" th:action="@{/admin/add}" th:object="${user}"
-          th:method="post">
-       <!-- accept-charset="UTF-8"-->
-        <tr>
-            <th>Name</th>
-            <td><input type="text" th:accept-charset="UTF-8" th:field="*{name}"></td>
-        </tr>
-
-        <tr>
-            <th>Last Name</th>
-            <td><input type="text"  th:accept-charset="UTF-8"  th:field="*{lastName}"></td>
-        </tr>
-
-        <tr>
-            <th>Age</th>
-            <td><input type="text" th:accept-charset="UTF-8" th:field="*{age}"></td>
-        </tr>
-        <tr>
-            <th>Password</th>
-            <td><input type="text" th:accept-charset="UTF-8" th:field="*{password}"></td>
-        </tr>
-
-        <tr>
-            <th>Add User</th>
-            <td align="center">
-                <button type="submit"  th:form="addUser">ADD</button>
-            </td>
-        </tr>
-
-    </form>
-
-</table>
-
+</div>
 
 </body>
 </html>

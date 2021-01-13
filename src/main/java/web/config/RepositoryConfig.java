@@ -1,24 +1,15 @@
 package web.config;
 
 
-import org.hibernate.engine.spi.SessionFactoryDelegatingImpl;
-import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import web.model.User;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -33,7 +24,6 @@ public class RepositoryConfig {
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        //dataSource.setUrl("jdbc:mysql://localhost:3306/usercrud?verifyServerCertificate=false&useSSL=false&requireSSL=false&useLegacyDatetimeCode=false&amp&serverTimezone=UTC");
         dataSource.setUrl("jdbc:mysql://localhost:3306/security?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=utf-8");
         dataSource.setUsername("root");
         dataSource.setPassword("12345");
@@ -50,6 +40,7 @@ public class RepositoryConfig {
         props.put("hibernate.connection.CharSet", "utf8");
         props.put("hibernate.connection.useUnicode", true);
 
+        // props.put("hibernate.enable_lazy_load_no_trans", true);
         //HibernatePersistenceProvider hibernatePersistenceProvider =new HibernatePersistenceProvider();
 
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();

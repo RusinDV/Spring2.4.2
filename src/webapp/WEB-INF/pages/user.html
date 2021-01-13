@@ -1,37 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>User page</title>
 </head>
+<div class="row" th:if="${#request.isUserInRole('ADMIN')}">
+    <a href="/admin/">Admin</a>
+    <br>
+</div>
 
-<a href="/">Main Page</a>
+<a href="/logout">Logout</a>
 <br>
 <br>
-<br>
-<table th:object="${user}">
+<div class="container" align="left">
+    <table border="5" cellpadding="10" th:object="${user}">
 
-    <tr>
-        <th>Id :</th>
-        <th th:text="*{id}"></th>
-    </tr>
-    <tr >
-        <th>Name :</th>
-        <th th:text="*{name}"></th>
-    </tr>
-    <tr>
-        <th>LastName :</th>
-        <th th:text="*{lastName}">Last Name</th>
-    </tr>
-    <tr>
-        <th>Age :</th>
-        <td th:text="*{age}">Age</td>
-    </tr>
-</table>
+        <tr>
+            <th>Id :</th>
+            <th th:text="*{id}"></th>
 
+        </tr>
 
+        <tr>
+            <th>Name :</th>
+            <th th:text="*{name}"></th>
+        </tr>
 
+        <tr>
+            <th>LastName :</th>
+            <th th:text="*{lastName}"></th>
+        </tr>
+
+        <tr>
+            <th>Age :</th>
+            <td align="center" style="font-weight:bold" th:text="*{age}"></td>
+        </tr>
+
+        <tr>
+            <th>Role:</th>
+            <td>
+                <div th:each="authGroup:${user.getAuthGroupList()}">
+                    <p th:text="${authGroup.getAuthgroup()}"></p>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>

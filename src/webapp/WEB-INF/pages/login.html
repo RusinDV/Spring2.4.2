@@ -20,26 +20,29 @@
 </head>
 <body>
 
-<br>
-<form action="#" th:action="@{/login}" th:object="${user}" th:method="post" class="login">
-    <p>
-        <label for="login" th:text="Login ">Логин:</label>
-        <input type="text" name="login" id="login" th:name="*{'username'}" placeholder="Enter your name">
-    </p>
 
-    <p>
-        <label for="password" th:text="Password">Пароль:</label>
-        <input type="password" name="password" id="password" th:name="*{'password'}" placeholder="Enter your password">
-    </p>
-
-    <p>
-        <button type="submit" class="login-button">Войти</button>
-    </p>
+<div align="center">
     <br>
-    <a href="/registration"> Registration</a>
-</form>
-<br>
+    <form action="#" th:action="@{/login}" th:object="${user}" th:method="post" class="login">
+        <p>
+            <label for="login" th:text="Login ">Логин:</label>
+            <input type="text" name="login" id="login" th:name="*{'username'}" placeholder="Enter your name">
+        </p>
 
+        <p>
+            <label for="password" th:text="Password">Пароль:</label>
+            <input type="password" name="password" id="password" th:name="*{'password'}"
+                   placeholder="Enter your password">
+        </p>
+
+        <p>
+            <button type="submit" class="login-button">Войти</button>
+        </p>
+        <br>
+        <a href="/registration"> Registration</a>
+    </form>
+    <br>
+</div>
 
 </body>
 </html>

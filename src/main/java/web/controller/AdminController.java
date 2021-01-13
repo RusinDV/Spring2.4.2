@@ -6,28 +6,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import web.dao.UserDaoImplHibernate;
 import web.model.AuthGroup;
 import web.model.User;
-import web.service.AuthGroupService;
 import web.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    AuthGroupService authGroupService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping(value = "/")
     @PreAuthorize(value = "hasRole('ADMIN')")
     public ModelAndView getEditPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", new User());
         modelAndView.setViewName("editUsers");
         modelAndView.addObject("allUsers", userService.getUsers());
         return modelAndView;
@@ -35,33 +33,45 @@ public class AdminController {
 
     @PostMapping(value = "/delete")
     @PreAuthorize(value = "hasRole('ADMIN')")
-    public ModelAndView getDelete(HttpServletRequest request) {
+    public ModelAndView getDelete(@RequestParam long idUser) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/admin/");
-        long id = Long.parseLong(request.getParameter("idUser"));
-        authGroupService.deleteAuthGroupByName(userService.readUser(id).getName());
-        userService.deleteUser(id);
+        userService.deleteUser(idUser);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/createUser")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ModelAndView createUser(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("createUser");
+        modelAndView.addObject("userAdd", new User());
         return modelAndView;
     }
 
     @PostMapping(value = "/add")
     @PreAuthorize(value = "hasRole('ADMIN')")
-    public ModelAndView getAdd(@ModelAttribute("user") User theUser) {
+    public ModelAndView registrationPost(@ModelAttribute("userForm") User user, @ModelAttribute("role") String role, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-        String password = theUser.getPassword();
-        String encode = new BCryptPasswordEncoder(11).encode(password);
-        theUser.setPassword(encode);
-        userService.createUser(theUser);
+        String encode = bCryptPasswordEncoder.encode(user.getPassword());
 
-        AuthGroup authGroup = new AuthGroup();
-        authGroup.setName(theUser.getName());
-        authGroup.setAuthgroup("USER");
-        authGroupService.createAuthGroup(authGroup);
+        List<AuthGroup> authGroupList = new LinkedList<>();
+        AuthGroup authGroupUser = new AuthGroup();
+        authGroupUser.setName(user.getName());
+        authGroupUser.setAuthgroup("USER");
+        authGroupList.add(authGroupUser);
 
-        AuthGroup authGroup2 = new AuthGroup();
-        authGroup2.setName(theUser.getName());
-        authGroup2.setAuthgroup("ADMIN");
-        authGroupService.createAuthGroup(authGroup2);
+        if (role.equals("admin")) {
+            AuthGroup authGroupAdmin = new AuthGroup();
+            authGroupAdmin.setName(user.getName());
+            authGroupAdmin.setAuthgroup("ADMIN");
+            authGroupList.add(authGroupAdmin);
+
+        }
+
+        user.setAuthGroupList(authGroupList);
+        user.setPassword(encode);
+        userService.createUser(user);
 
         modelAndView.setViewName("redirect:/admin/");
         return modelAndView;
@@ -81,22 +91,26 @@ public class AdminController {
 
     @PostMapping(value = "/update")
     @PreAuthorize(value = "hasRole('ADMIN')")
-    public ModelAndView getUpdatePost(@ModelAttribute("user") User theUser) {
+    public ModelAndView getUpdatePost(@ModelAttribute("user") User theUser,@ModelAttribute("role") String role) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/admin/");
-        String password = theUser.getPassword();
-        String encode = new BCryptPasswordEncoder(11).encode(password);
-        userService.updateUser(theUser.getId(), theUser.getName(), theUser.getLastName(), theUser.getAge(), encode);
+        String encode = bCryptPasswordEncoder.encode(theUser.getPassword());
 
-        AuthGroup authGroup = new AuthGroup();
-        authGroup.setName(theUser.getName());
-        authGroup.setAuthgroup("USER");
-        authGroupService.createAuthGroup(authGroup);
+        List<AuthGroup> authGroupList = new LinkedList<>();
+        AuthGroup authGroupUser = new AuthGroup();
+        authGroupUser.setName(theUser.getName());
+        authGroupUser.setAuthgroup("USER");
+        authGroupList.add(authGroupUser);
 
-        AuthGroup authGroup2 = new AuthGroup();
-        authGroup2.setName(theUser.getName());
-        authGroup2.setAuthgroup("ADMIN");
-        authGroupService.createAuthGroup(authGroup2);
+        if (role.equals("admin")) {
+            AuthGroup authGroupAdmin = new AuthGroup();
+            authGroupAdmin.setName(theUser.getName());
+            authGroupAdmin.setAuthgroup("ADMIN");
+            authGroupList.add(authGroupAdmin);
+        }
+
+
+        userService.updateUser(theUser.getId(), theUser.getName(), theUser.getLastName(), theUser.getAge(), encode,authGroupList);
 
         return modelAndView;
     }

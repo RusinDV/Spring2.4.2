@@ -1,46 +1,40 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
 </head>
 
 <body>
 <br>
-<H2>Welcome</H2>
+<H2 align="center">Welcome</H2>
 
-<div>
-    <a href="/">Main Page</a>
+<div align="center">
+
     <br>
-    <form th:id="addUser" action="#" th:action="@{/registration}" th:object="${userForm}" th:method="post" class="login">
-        <p>
-            <label for="login">Name:</label>
-            <input type="text" name="login" id="login" th:field="*{name}">
-        <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</td>
-        </p>
-        <p>
-            <label for="lastname">Last Name:</label>
-            <input type="text" name="lastname" id="lastname" th:field="*{lastName}">
-        </p>
-        <p>
-            <label for="age">Age:</label>
-            <input type="text" name="age" id="age" th:field="*{age}">
-        </p>
+    <form th:id="addUser" action="#" th:action="@{/registration}" th:object="${userForm}" th:method="post"
+          class="login">
 
-         <p>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" th:field="*{password}">
-         </p>
-
+        <p>Name</p>
+        <input type="text" name="login" th:field="*{name}">
+        <p>Last Name</p>
+        <input type="text" name="lastname" th:field="*{lastName}">
+        <p>Age</p>
+        <input type="text" name="age" th:field="*{age}">
+        <p>Password</p>
+        <input type="password" name="password" id="password" th:field="*{password}">
+        <p>Role</p>
+        <select name="role">
+            <option value="user">USER</option>
+            <option value="admin">ADMIN</option>
+        </select>
+        <br>
         <p class="login-submit">
             <button type="submit" class="login-button">Registration</button>
         </p>
-
-        <p th:text="${message}"></p>
-
-
     </form>
+    <br>
+    <a href="/login">Login</a>
 </div>
 </body>
 </html>

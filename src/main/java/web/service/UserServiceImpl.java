@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
 import web.dao.UserDaoImplHibernate;
+import web.model.AuthGroup;
 import web.model.User;
 
 import java.util.List;
@@ -13,46 +14,53 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
-    @Transactional
+
     @Override
+    @Transactional
     public void createUser(User user) {
         userDao.createUser(user);
     }
 
-    @Transactional
+
     @Override
+    @Transactional
     public User readUser(Long idUser) {
         return userDao.readUser(idUser);
     }
 
-    @Transactional
+
     @Override
+    @Transactional
     public User redUserByName(String name) {
         return userDao.redUserByName(name);
     }
 
-    @Transactional
+
     @Override
+    @Transactional
     public User redUserByNameAndLastName(String name, String lastName) {
         return userDao.redUserByNameAndLastName(name,lastName);
     }
 
-    @Transactional
+
     @Override
-    public void updateUser(Long idUser, String name, String lastname, int age, String password) {
-        userDao.updateUser(idUser, name, lastname, age, password);
+    @Transactional
+    public void updateUser(Long idUser, String name, String lastname, int age, String password, List<AuthGroup> authGroupList) {
+        userDao.updateUser(idUser, name, lastname, age, password,authGroupList);
     }
 
-    @Transactional
+
     @Override
+    @Transactional
     public void deleteUser(Long idUser) {
         userDao.deleteUser(idUser);
     }
 
-    @Transactional
+
     @Override
+    @Transactional
     public List<User> getUsers() {
         return userDao.getUsers();
     }

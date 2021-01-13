@@ -2,14 +2,12 @@ package web.config.handler;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,30 +15,30 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
-/*    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response, Authentication authentication) throws IOException{
+    /*    @Override
+        public void onAuthenticationSuccess(HttpServletRequest request,
+                                            HttpServletResponse response, Authentication authentication) throws IOException{
 
-        response.setStatus(HttpServletResponse.SC_OK);
-        boolean admin = false;
-        System.out.println("_______________________________");
-        for (GrantedAuthority auth : authentication.getAuthorities()) {
-            System.out.println(auth.getAuthority());
+            response.setStatus(HttpServletResponse.SC_OK);
+            boolean admin = false;
             System.out.println("_______________________________");
-            if ("ROLE_ADMIN".equals(auth.getAuthority())){
-                admin = true;
+            for (GrantedAuthority auth : authentication.getAuthorities()) {
+                System.out.println(auth.getAuthority());
+                System.out.println("_______________________________");
+                if ("ROLE_ADMIN".equals(auth.getAuthority())){
+                    admin = true;
+                }
+            }
+            if(admin){
+                response.sendRedirect("/admin/");
+            }else{
+                response.sendRedirect("/user/");
             }
         }
-        if(admin){
-            response.sendRedirect("/admin/");
-        }else{
-            response.sendRedirect("/user/");
-        }
-    }*/
+    */
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -69,7 +67,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();
-            if(roleTargetUrlMap.containsKey(authorityName)) {
+            if (roleTargetUrlMap.containsKey(authorityName)) {
                 return roleTargetUrlMap.get(authorityName);
             }
         }

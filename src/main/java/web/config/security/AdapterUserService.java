@@ -7,9 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import web.model.AuthGroup;
 import web.model.User;
-import web.service.AuthGroupService;
 import web.service.UserService;
-
 
 import java.util.List;
 
@@ -17,19 +15,12 @@ import java.util.List;
 public class AdapterUserService implements UserDetailsService {
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    AuthGroupService authGroupService;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userService.redUserByName(s);
-        if (user == null) {
-            throw new UsernameNotFoundException("cannot find user " + s);
-        }
-        List<AuthGroup> authGroupList= authGroupService.getListAuthGroupByName(s);
-
+        List<AuthGroup> authGroupList= user.getAuthGroupList();
         return new AdapterUserDetails(user,authGroupList);
     }
 }

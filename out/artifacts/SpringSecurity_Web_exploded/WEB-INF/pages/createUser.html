@@ -12,7 +12,7 @@
 <div align="center">
 
     <br>
-    <form th:id="addUser" action="#" th:action="@{/registration}" th:object="${userForm}" th:method="post"
+    <form th:id="addUser" action="#" th:action="@{/admin/add}" th:object="${userAdd}" th:method="post"
           class="login">
 
         <p>Name</p>
@@ -30,11 +30,11 @@
         </select>
         <br>
         <p class="login-submit">
-            <button type="submit" class="login-button">Registration</button>
+            <button type="submit" class="login-button">Add user</button>
         </p>
     </form>
     <br>
-    <a href="/login">Login</a>
+    <a href="/admin/">Admin page</a>
 </div>
 </body>
 </html>

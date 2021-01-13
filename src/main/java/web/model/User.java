@@ -1,40 +1,32 @@
 package web.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column
     private String name;
-
-    @Column
     private String lastName;
-
-    @Column
+    private int age;
     private String password;
 
-    @Column
-    private int age;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    @OrderBy("authgroup")
+    private List<AuthGroup> authGroupList;
 
     public User() {
     }
 
-    public User(String name, String lastName, int age) {
+    public User(String name, String lastName, int age, String password, List<AuthGroup> authGroupList) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
+        this.authGroupList = authGroupList;
     }
 
     public Long getId() {
@@ -69,6 +61,28 @@ public class User {
         this.age = age;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<AuthGroup> getAuthGroupList() {
+        return authGroupList;
+    }
+
+    public void setAuthGroupList(List<AuthGroup> authGroupList) {
+        if (this.authGroupList == null) {
+            this.authGroupList = authGroupList;
+        } else {
+            this.authGroupList.retainAll(authGroupList);
+            this.authGroupList.addAll(authGroupList);
+        }
+    }
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -76,6 +90,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
+                ", password='" + password + '\'' +
+                ", authGroupList=" + authGroupList +
                 '}';
     }
 }

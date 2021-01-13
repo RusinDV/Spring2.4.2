@@ -6,15 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.messaging.context.AuthenticationPrincipalArgumentResolver;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import web.config.filter.CustomFilter;
@@ -22,15 +20,20 @@ import web.config.handler.LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    AdapterUserService adapterUserService;
+    private AdapterUserService adapterUserService;
 
+    @Bean
+    BCryptPasswordEncoder getBCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder(11);
+    }
 
     @Bean
     DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder(11));
+        daoAuthenticationProvider.setPasswordEncoder(getBCryptPasswordEncoder());
         daoAuthenticationProvider.setUserDetailsService(adapterUserService);
         daoAuthenticationProvider.setAuthoritiesMapper(authoritiesMapper());
         return daoAuthenticationProvider;
@@ -55,14 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-             //   .antMatchers("/admin/**").hasRole("ADMIN")
-              //  .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/", "/index", "/registration/**").permitAll()
+                //  .antMatchers("/admin/**").hasRole("ADMIN")
+                //  .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/","/index", "/registration/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/").successHandler(myAuthenticationSuccessHandler())
-                .failureUrl("/error").permitAll()
-                .and().exceptionHandling().accessDeniedPage("/error")
+                .formLogin()/*.loginPage("/login")*/.successHandler(myAuthenticationSuccessHandler())
+                //.failureUrl("/error").permitAll()
+                //.and().exceptionHandling().accessDeniedPage("/error")
                 .and()
                 .logout().invalidateHttpSession(true).clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -80,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
+
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
