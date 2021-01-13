@@ -21,7 +21,7 @@ public class UserController {
     public ModelAndView getEditPage(Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user");
-        User user = userService.redUserByName(principal.getName());
+        User user = userService.readUserByName(principal.getName());
         modelAndView.addObject("user", user);
         return modelAndView;
     }

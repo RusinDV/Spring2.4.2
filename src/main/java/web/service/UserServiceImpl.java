@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
-import web.dao.UserDaoImplHibernate;
 import web.model.AuthGroup;
 import web.model.User;
 
@@ -25,23 +24,23 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User readUser(Long idUser) {
         return userDao.readUser(idUser);
     }
 
 
     @Override
-    @Transactional
-    public User redUserByName(String name) {
-        return userDao.redUserByName(name);
+    @Transactional (readOnly = true)
+    public User readUserByName(String name) {
+        return userDao.readUserByName(name);
     }
 
 
     @Override
     @Transactional
-    public User redUserByNameAndLastName(String name, String lastName) {
-        return userDao.redUserByNameAndLastName(name,lastName);
+    public User readUserByNameAndLastName(String name, String lastName) {
+        return userDao.readUserByNameAndLastName(name,lastName);
     }
 
 

@@ -19,7 +19,7 @@ public class AdapterUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userService.redUserByName(s);
+        User user = userService.readUserByName(s);
         List<AuthGroup> authGroupList= user.getAuthGroupList();
         return new AdapterUserDetails(user,authGroupList);
     }
