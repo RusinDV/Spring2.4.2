@@ -79,11 +79,10 @@ public class AdminController {
 
     @PostMapping(value = "/preupdate")
     @PreAuthorize(value = "hasRole('ADMIN')")
-    public ModelAndView getUpdate(HttpServletRequest request) {
+    public ModelAndView getUpdate(@RequestParam long idUser) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("update");
-        long id = Long.parseLong(request.getParameter("idUser"));
-        User user = userService.readUser(id);
+        User user = userService.readUser(idUser);
         user.setPassword("");
         modelAndView.addObject("user", user);
         return modelAndView;

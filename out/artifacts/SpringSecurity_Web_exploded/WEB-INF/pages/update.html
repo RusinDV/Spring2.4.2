@@ -25,11 +25,11 @@
 
         <tr>
             <th>Age</th>
-            <td><input type="text" th:field="*{age}" th:placeholder="${user.getAge()}"></td>
+            <td><input type="number" th:field="*{age}" th:placeholder="${user.getAge()}"></td>
         </tr>
         <tr>
             <th>Password</th>
-            <td><input type="text" th:field="*{password}"></td>
+            <td><input type="password" th:field="*{password}"></td>
         </tr>
         <tr>
             <th>Role</th>
@@ -41,7 +41,7 @@
             </td>
         </tr>
         <tr>
-            <th>Add User</th>
+            <th>Update User</th>
             <td align="center">
                 <button type="submit" th:form="updateUser">Update</button>
             </td>
